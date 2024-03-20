@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { toDate } from 'date-fns';
+import esLocale from 'date-fns/locale/es';
+import { toDate, format, addDays, startOfWeek } from 'date-fns';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -10,12 +11,13 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 import Iconify from 'src/components/iconify';
 
+import Training from '../training';
 import CustomDayPicker from '../customDayPicker';
 
 export default function CalendarView() {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [value, setValue] = useState(toDate(new Date()));
-
+  console.log(value);
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -29,9 +31,8 @@ export default function CalendarView() {
       <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
         <DateCalendar
           value={value}
-          onChange={(newValue) => setValue(newValue)}
+          onChange={(newValue) => setValue(startOfWeek(newValue, { weekStartsOn: 1 }))}
           showDaysOutsideCurrentMonth
-          displayWeekNumber
           slots={{ day: CustomDayPicker }}
           slotProps={{
             day: (ownerState) => ({
@@ -45,9 +46,21 @@ export default function CalendarView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {/* {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} />
-        ))} */}
+        {[0, 1, 2, 3, 4, 5, 6].map((post, index) => (
+          <Grid xs={12}>
+            <Training
+              key={post.id}
+              title={`Entrenamiento ${format(addDays(value, index), "EEEE, d 'de' MMMM", { locale: esLocale })}`}
+              list={[...Array(3)].map((_, i) => ({
+                id: `${index}-${i}`,
+                title: ['8x150m', '2x400', '4x80', '2x150'][Math.floor(Math.random() * 4)],
+                description: 'Intensidad: 75% (Ritmo: 20.1s)',
+                image: `/assets/images/training/track.png`,
+                type: 'Series',
+              }))}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );

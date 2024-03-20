@@ -24,11 +24,11 @@ const CustomPickersDay = styled(PickersDay, {
       backgroundColor: theme.palette.primary[theme.palette.mode],
     },
   }),
-  ...(getDay(day) === 0 && {
+  ...(getDay(day) === 1 && {
     borderTopLeftRadius: '50%',
     borderBottomLeftRadius: '50%',
   }),
-  ...(getDay(day) === 6 && {
+  ...(getDay(day) === 0 && {
     borderTopRightRadius: '50%',
     borderBottomRightRadius: '50%',
   }),

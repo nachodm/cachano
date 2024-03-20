@@ -9,6 +9,8 @@ import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 import Router from 'src/routes/sections';
 import ThemeProvider from 'src/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { es } from 'date-fns/locale';
+import { setDefaultOptions } from 'date-fns';
 import { supabase } from './utils/supabase';
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
 
   const queryClient = new QueryClient();
   const [todos, setTodos] = useState([]);
+  setDefaultOptions({ weekStartsOn: 1 });
 
   useEffect(() => {
     async function getTodos() {
@@ -33,7 +36,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
           <Router />
         </LocalizationProvider>
       </QueryClientProvider>
