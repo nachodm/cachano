@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
+// import { useAuth } from 'src/context/authProvider';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  // const { user } = useAuth();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

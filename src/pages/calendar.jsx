@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ProductsView } from 'src/sections/products/view';
+import { CalendarView } from 'src/sections/calendar/view';
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function CalendarPage() {
   return (
     <>
       <Helmet>
-        <title> Products | Minimal UI </title>
+        <title> Calendar </title>
       </Helmet>
 
-      <ProductsView />
+      <CalendarView />
     </>
   );
 }

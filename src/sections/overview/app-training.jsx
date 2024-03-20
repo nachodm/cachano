@@ -9,22 +9,18 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 
-import { fToNow } from 'src/utils/format-time';
-
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
-// ----------------------------------------------------------------------
-
-export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+export default function AppTraining({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+          {list.map((training) => (
+            <TrainingItem key={training.id} training={training} />
           ))}
         </Stack>
       </Scrollbar>
@@ -37,14 +33,14 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         >
-          View all
+          Ver todo
         </Button>
       </Box>
     </Card>
   );
 }
 
-AppNewsUpdate.propTypes = {
+AppTraining.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
@@ -52,8 +48,8 @@ AppNewsUpdate.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
+function TrainingItem({ training }) {
+  const { image, title, description, type } = training;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -75,17 +71,17 @@ function NewsItem({ news }) {
       </Box>
 
       <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {fToNow(postedAt)}
+        {type}
       </Typography>
     </Stack>
   );
 }
 
-NewsItem.propTypes = {
-  news: PropTypes.shape({
+TrainingItem.propTypes = {
+  training: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
-    postedAt: PropTypes.instanceOf(Date),
+    type: PropTypes.string,
   }),
 };
