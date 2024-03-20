@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext, createContext } from 'react';
 
 import { supabase } from 'src/utils/supabase';
@@ -32,6 +33,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -49,6 +51,7 @@ const AuthProvider = ({ children }) => {
       } else if (event === 'SIGNED_IN') {
         setUser(session.user);
         setAuth(true);
+        navigate('/');
       } else if (event === 'SIGNED_OUT') {
         setAuth(false);
         setUser(null);
@@ -57,7 +60,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <AuthContext.Provider

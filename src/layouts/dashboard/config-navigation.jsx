@@ -22,11 +22,6 @@ const navConfig = [
     path: '/calendar',
     icon: icon('ic_calendar'),
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
 ];
 
 export default navConfig;

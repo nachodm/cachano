@@ -44,7 +44,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
+          <Typography variant="h4">Sign in to mrnxn</Typography>
 
           <Auth
             supabaseClient={supabase}

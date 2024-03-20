@@ -8,11 +8,13 @@ import { useState, useEffect } from 'react';
 import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 import Router from 'src/routes/sections';
 import ThemeProvider from 'src/theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { supabase } from './utils/supabase';
 
 export default function App() {
   useScrollToTop();
 
+  const queryClient = new QueryClient();
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -30,9 +32,11 @@ export default function App() {
   console.log(todos);
   return (
     <ThemeProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Router />
-      </LocalizationProvider>
+      <QueryClientProvider client={queryClient}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Router />
+        </LocalizationProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
