@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -26,8 +27,13 @@ import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
+  const navigate = useNavigate();
 
   const upLg = useResponsive('up', 'lg');
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
 
   useEffect(() => {
     if (openNav) {
@@ -47,7 +53,9 @@ export default function Nav({ openNav, onCloseNav }) {
         borderRadius: 1.5,
         alignItems: 'center',
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+        '&:hover': { bgcolor: (theme) => alpha(theme.palette.grey[500], 0.25), cursor: 'pointer' },
       }}
+      onClick={handleProfileClick}
     >
       <Avatar src={account.photoURL} alt="photoURL" />
 
@@ -87,7 +95,6 @@ export default function Nav({ openNav, onCloseNav }) {
       {renderMenu}
 
       <Box sx={{ flexGrow: 1 }} />
-
     </Scrollbar>
   );
 
