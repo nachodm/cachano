@@ -27,7 +27,6 @@ export default function AddTrainingView() {
   const [selectedDate, setSelectedDate] = useState(toDate(addDays(startOfWeek(new Date()), 7)));
   const [schedule, setSchedule] = useState(() => [0, 1, 2, 3, 4, 5, 6]);
   const [activeStep, setActiveStep] = useState(0);
-  const steps = ['Select week', 'Choose training days', 'Complete training sessions'];
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -84,10 +83,9 @@ export default function AddTrainingView() {
               >
                 Back
               </Button>
-              <Box sx={{ flex: '1 1 auto' }} />
 
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              <Button variant="contained" onClick={handleNext}>
+                Next
               </Button>
             </Box>
           </StepContent>
@@ -95,7 +93,7 @@ export default function AddTrainingView() {
         <Step>
           <StepLabel>Complete training sessions</StepLabel>
           <StepContent>
-            <WeekTrainingSessionsStep schedule={schedule} />
+            <WeekTrainingSessionsStep schedule={schedule} selectedDate={selectedDate} />
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button
                 color="inherit"
@@ -105,9 +103,10 @@ export default function AddTrainingView() {
               >
                 Back
               </Button>
-              <Box sx={{ flex: '1 1 auto' }} />
 
-              <Button onClick={handleUpload}>Upload</Button>
+              <Button variant="contained" color="success" onClick={handleUpload}>
+                Upload
+              </Button>
             </Box>
           </StepContent>
         </Step>

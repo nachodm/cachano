@@ -35,7 +35,6 @@ export default function AppView() {
             }))}
           />
         </Grid>
-
         {/* <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Logins hoy"

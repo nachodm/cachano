@@ -35,7 +35,7 @@ export default function SelectTrainingDaysStep(props) {
 }
 
 SelectTrainingDaysStep.propTypes = {
-  schedule: PropTypes.any,
+  schedule: PropTypes.array.isRequired,
   selectedDate: PropTypes.any,
   setSchedule: PropTypes.any,
 };
