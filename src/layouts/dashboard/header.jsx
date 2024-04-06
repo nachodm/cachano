@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -10,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { bgBlur } from 'src/theme/css';
+import { ColorModeContext } from 'src/theme';
 
 import Iconify from 'src/components/iconify';
 
@@ -24,6 +26,14 @@ import NotificationsPopover from './common/notifications-popover';
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
 
+  const colorMode = useContext(ColorModeContext);
+  const toggleColorMode = (_) => {
+    if (colorMode.mode === 'light') {
+      colorMode.setMode('dark');
+    } else {
+      colorMode.setMode('light');
+    }
+  };
   const lgUp = useResponsive('up', 'lg');
 
   const renderContent = (
@@ -41,6 +51,15 @@ export default function Header({ onOpenNav }) {
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
+        <IconButton onClick={toggleColorMode} sx={{ mr: 1 }}>
+          <Iconify
+            icon={
+              colorMode.mode === 'light'
+                ? 'material-symbols:dark-mode'
+                : 'material-symbols:light-mode'
+            }
+          />
+        </IconButton>
         <AccountPopover />
       </Stack>
     </>
