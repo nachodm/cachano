@@ -4,13 +4,11 @@ import { useState, useEffect, useContext, createContext } from 'react';
 
 import { supabase } from 'src/utils/supabase';
 
+import { useAuthStore } from 'src/store/authStore';
+
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
-
-const login = (email, password) => supabase.auth.signInWithPassword({ email, password });
-
-const signOut = () => supabase.auth.signOut();
 
 // const signUpNewUser = () => {
 //   const { data, error } = supabase.auth.signUp({
@@ -30,8 +28,14 @@ const passwordReset = (email) =>
 const updatePassword = (updatedPassword) => supabase.auth.updateUser({ password: updatedPassword });
 
 const AuthProvider = ({ children }) => {
+  const { user, signIn, signOut, loadUserInfo, setUser } = useAuthStore((state) => ({
+    user: state.user,
+    signIn: state.signIn,
+    setUser: state.setUser,
+    signOut: state.signOut,
+    loadUserInfo: state.loadUserInfo,
+  }));
   const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -40,7 +44,6 @@ const AuthProvider = ({ children }) => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const { user: currentUser } = data;
-      setUser(currentUser ?? null);
       setAuth(!!currentUser);
       setLoading(false);
     };
@@ -51,6 +54,7 @@ const AuthProvider = ({ children }) => {
       } else if (event === 'SIGNED_IN') {
         setUser(session.user);
         setAuth(true);
+        loadUserInfo();
         navigate('/');
       } else if (event === 'SIGNED_OUT') {
         setAuth(false);
@@ -60,7 +64,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [loadUserInfo, navigate, setUser]);
 
   return (
     <AuthContext.Provider
@@ -68,7 +72,7 @@ const AuthProvider = ({ children }) => {
       value={{
         auth,
         user,
-        login,
+        signIn,
         signOut,
         passwordReset,
         updatePassword,

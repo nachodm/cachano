@@ -22,10 +22,10 @@ export default function App() {
 
   useEffect(() => {
     async function getTodos() {
-      const { data } = await supabase.from('exercise').select();
+      const { data: exercise } = await supabase.from('exercise').select('*');
 
-      if (data.length > 1) {
-        setTodos(data);
+      if (exercise.length > 1) {
+        setTodos(exercise);
       }
     }
 

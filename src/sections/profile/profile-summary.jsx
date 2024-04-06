@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
+
+import { useAuthStore } from 'src/store/authStore';
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +40,8 @@ function stringAvatar(name) {
 }
 
 export default function ProfileSummary({ title, total, icon = false }) {
+  const { user } = useAuthStore();
+
   return (
     <Card
       component={Stack}
@@ -48,12 +53,12 @@ export default function ProfileSummary({ title, total, icon = false }) {
         borderRadius: 2,
       }}
     >
-      {icon && <Avatar {...stringAvatar('Nacho Domingo')} />}
+      {icon && user ? <Avatar {...stringAvatar(user.displayName)} /> : <Skeleton />}
 
       <Stack spacing={0.5}>
         <Typography variant="h4">{total}</Typography>
 
-        <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.disabled' }} noWrap>
           {title}
         </Typography>
       </Stack>
