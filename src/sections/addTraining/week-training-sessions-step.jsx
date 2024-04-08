@@ -9,7 +9,7 @@ import NewTraining from './newTraining';
 // ----------------------------------------------------------------------
 
 export default function WeekTrainingSessionsStep(props) {
-  const { schedule, selectedDate } = props;
+  const { schedule, selectedDate, exerciseTypes } = props;
 
   return (
     <Stack direction="column" alignItems="center" justifyContent="space-between">
@@ -24,6 +24,7 @@ export default function WeekTrainingSessionsStep(props) {
             image: `/assets/images/training/track.png`,
             type: 'Series',
           }))}
+          exerciseTypes={exerciseTypes}
         />
       ))}
     </Stack>
@@ -33,4 +34,5 @@ export default function WeekTrainingSessionsStep(props) {
 WeekTrainingSessionsStep.propTypes = {
   schedule: PropTypes.array.isRequired,
   selectedDate: PropTypes.object,
+  exerciseTypes: PropTypes.array,
 };

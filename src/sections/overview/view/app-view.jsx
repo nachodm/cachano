@@ -1,21 +1,29 @@
 import { faker } from '@faker-js/faker';
+import { useState, useEffect } from 'react';
 
+import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
+import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
 
-// import AppTasks from '../app-tasks';
+import { useTrainingGroupStore } from 'src/store/trainingGroupStore';
+
 import AppTraining from '../app-training';
-// import AppOrderTimeline from '../app-order-timeline';
-// import AppCurrentVisits from '../app-current-visits';
-// import AppWebsiteVisits from '../app-website-visits';
-// import AppWidgetSummary from '../app-widget-summary';
-// import AppCurrentSubject from '../app-current-subject';
-// import AppConversionRates from '../app-conversion-rates';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const { loadWeekTrainingSessions } = useTrainingGroupStore();
+  const [todaySession, setTodaySession] = useState(null);
+  useEffect(() => {
+    const getSessions = async () => {
+      await loadWeekTrainingSessions(new Date());
+      setTodaySession(null);
+    };
+    getSessions();
+  }, [loadWeekTrainingSessions]);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -24,16 +32,23 @@ export default function AppView() {
 
       <Grid container spacing={3}>
         <Grid xs={12}>
-          <AppTraining
-            title="Entrenamiento"
-            list={[...Array(3)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: ['8x150m', '2x400', '4x80', '2x150'][Math.floor(Math.random() * 4)],
-              description: 'Intensidad: 75% (Ritmo: 20.1s)',
-              image: `/assets/images/training/track.png`,
-              type: 'Series',
-            }))}
-          />
+          {todaySession ? (
+            <AppTraining
+              title="Entrenamiento"
+              list={[...Array(3)].map((_, index) => ({
+                id: faker.string.uuid(),
+                title: ['8x150m', '2x400', '4x80', '2x150'][Math.floor(Math.random() * 4)],
+                description: 'Intensidad: 75% (Ritmo: 20.1s)',
+                image: `/assets/images/training/track.png`,
+                type: 'Series',
+              }))}
+            />
+          ) : (
+            <Card>
+              <CardHeader title="Rest day!" subheader="Enjoy your day off" />
+              <CardContent />
+            </Card>
+          )}
         </Grid>
         {/* <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary

@@ -33,7 +33,7 @@ export default function NotFoundView() {
       <Container>
         <Box
           sx={{
-            py: 12,
+            py: 10,
             maxWidth: 480,
             mx: 'auto',
             display: 'flex',
@@ -45,7 +45,7 @@ export default function NotFoundView() {
           }}
         >
           <Typography variant="h3" sx={{ mb: 3 }}>
-            Pero qué has roto?!
+            ¡¿Pero qué has roto?!
           </Typography>
 
           <Typography sx={{ color: 'text.secondary' }}>
@@ -58,8 +58,8 @@ export default function NotFoundView() {
             src="/assets/illustrations/illustration_404.svg"
             sx={{
               mx: 'auto',
-              height: 260,
-              my: { xs: 5, sm: 10 },
+              height: 240,
+              my: { xs: 5, sm: 8 },
             }}
           />
 

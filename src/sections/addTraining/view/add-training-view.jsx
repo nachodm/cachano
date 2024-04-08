@@ -7,16 +7,16 @@ import StepLabel from '@mui/material/StepLabel';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import StepContent from '@mui/material/StepContent';
+import LinearProgress from '@mui/material/LinearProgress';
 
 // import { posts } from 'src/_mock/blog';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toDate, addDays, startOfWeek } from 'date-fns';
-
-import Iconify from 'src/components/iconify';
 
 import SelectWeekStep from '../select-week-step';
 import SelectTrainingDaysStep from '../select-training-days-step';
+import { loadExerciseTypes } from '../../../database/trainingQueries';
 import WeekTrainingSessionsStep from '../week-training-sessions-step';
 
 // import PostCard from '../post-card';
@@ -27,6 +27,15 @@ export default function AddTrainingView() {
   const [selectedDate, setSelectedDate] = useState(toDate(addDays(startOfWeek(new Date()), 7)));
   const [schedule, setSchedule] = useState(() => [0, 1, 2, 3, 4, 5, 6]);
   const [activeStep, setActiveStep] = useState(0);
+  const [exerciseTypes, setExerciseTypes] = useState(null);
+
+  useEffect(() => {
+    const getTypes = async () => {
+      const types = await loadExerciseTypes();
+      setExerciseTypes(types);
+    };
+    getTypes();
+  }, []);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -44,10 +53,6 @@ export default function AddTrainingView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Add training</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Add week
-        </Button>
       </Stack>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
@@ -93,7 +98,15 @@ export default function AddTrainingView() {
         <Step>
           <StepLabel>Complete training sessions</StepLabel>
           <StepContent>
-            <WeekTrainingSessionsStep schedule={schedule} selectedDate={selectedDate} />
+            {exerciseTypes ? (
+              <WeekTrainingSessionsStep
+                schedule={schedule}
+                selectedDate={selectedDate}
+                exerciseTypes={exerciseTypes}
+              />
+            ) : (
+              <LinearProgress />
+            )}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button
                 color="inherit"

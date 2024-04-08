@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext, createContext } from 'react';
 
 import { supabase } from 'src/utils/supabase';
@@ -28,24 +27,23 @@ const passwordReset = (email) =>
 const updatePassword = (updatedPassword) => supabase.auth.updateUser({ password: updatedPassword });
 
 const AuthProvider = ({ children }) => {
-  const { user, signIn, signOut, loadUserInfo, setUser } = useAuthStore((state) => ({
-    user: state.user,
-    signIn: state.signIn,
-    setUser: state.setUser,
-    signOut: state.signOut,
-    loadUserInfo: state.loadUserInfo,
-  }));
+  const { user, signIn, signOut, setUser } = useAuthStore();
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const { user: currentUser } = data;
-      setAuth(!!currentUser);
-      setLoading(false);
+      if (!currentUser) {
+        setAuth(false);
+        setLoading(false);
+      } else {
+        await setUser(currentUser);
+        setAuth(true);
+        setLoading(false);
+      }
     };
     getUser();
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -54,8 +52,6 @@ const AuthProvider = ({ children }) => {
       } else if (event === 'SIGNED_IN') {
         setUser(session.user);
         setAuth(true);
-        loadUserInfo();
-        navigate('/');
       } else if (event === 'SIGNED_OUT') {
         setAuth(false);
         setUser(null);
@@ -64,7 +60,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [loadUserInfo, navigate, setUser]);
+  }, [setUser]);
 
   return (
     <AuthContext.Provider

@@ -4,7 +4,23 @@ import { supabase } from 'src/utils/supabase';
 
 export const useAuthStore = create((set) => ({
   user: null,
-  setUser: (user) => set({ user }),
+  setUser: async (user) => {
+    if (user != null) {
+      const { data } = await supabase
+        .from('profiles')
+        .select(
+          'first_name, last_name, email, nationality, main_events, coach, showNewUserForm, group_affiliation'
+        )
+        .eq('email', user.email)
+        .maybeSingle();
+      const fullUserInfo = {
+        ...user,
+        ...data,
+        displayName: [data.first_name, data.last_name].join(' '),
+      };
+      set({ user: fullUserInfo });
+    } else set({ user });
+  },
   signIn: async (email, password) => {
     const { user, error } = await supabase.auth.signInWithPassWord({ email, password });
     if (error) throw error;
@@ -20,7 +36,9 @@ export const useAuthStore = create((set) => ({
     if (user.email) {
       const { data } = await supabase
         .from('profiles')
-        .select('first_name, last_name, email, nationality, main_events, coach, showNewUserForm')
+        .select(
+          'first_name, last_name, email, nationality, main_events, coach, showNewUserForm, group_affiliation'
+        )
         .eq('email', user.email)
         .maybeSingle();
       const fullUserInfo = {

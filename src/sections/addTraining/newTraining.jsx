@@ -21,7 +21,7 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 export default function NewTraining(props) {
-  const { title, subheader } = props;
+  const { title, subheader, exerciseTypes } = props;
   const { handleSubmit, control, reset, formState } = useForm();
   const setAndRepsOptions = Array.from({ length: 16 }, (_, index) => index);
   const [list, setList] = useState([]);
@@ -73,7 +73,7 @@ export default function NewTraining(props) {
                       {...field}
                       size="small"
                       onChange={(event, value) => field.onChange(value)}
-                      options={['Series', 'gym']}
+                      options={exerciseTypes}
                       renderInput={(params) => <TextField {...params} label="Tipo" fullWidth />}
                     />
                   )}
@@ -173,6 +173,7 @@ export default function NewTraining(props) {
 NewTraining.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
+  exerciseTypes: PropTypes.array,
 };
 
 // ----------------------------------------------------------------------
