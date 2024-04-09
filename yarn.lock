@@ -1859,10 +1859,10 @@
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-"i18next@^23.11.0", "i18next@>= 23.2.3":
-  "integrity" "sha512-VwFtlgy2LDbY0Qs6VfekIm6mv5/JmSJrtBf4aszl7Vby8+GcBlri0/7dkMZXmzTfiBMPUPBOmYCdQK7K4emkGQ=="
-  "resolved" "https://registry.npmjs.org/i18next/-/i18next-23.11.0.tgz"
-  "version" "23.11.0"
+"i18next@^23.11.1", "i18next@>= 23.2.3":
+  "integrity" "sha512-mXw4A24BiPZKRsbb9ewgSvjYd6fxFCNwJyfK6nYfSTIAX2GkCWcb598m3DFkDZmqADatvuASrKo6qwORz3VwTQ=="
+  "resolved" "https://registry.npmjs.org/i18next/-/i18next-23.11.1.tgz"
+  "version" "23.11.1"
   dependencies:
     "@babel/runtime" "^7.23.2"
 

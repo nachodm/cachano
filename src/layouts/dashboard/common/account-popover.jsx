@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -17,6 +18,7 @@ import { useAuthStore } from 'src/store/authStore';
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(null);
   const { signOut } = useAuth();
   const { user } = useAuthStore();
@@ -91,7 +93,7 @@ export default function AccountPopover() {
           Home
         </MenuItem>
         <MenuItem key="Profile" onClick={handleProfileClick}>
-          Profile
+          {t('profile')}
         </MenuItem>
         <MenuItem key="Settings" onClick={handleClose}>
           Settings

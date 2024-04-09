@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import Skeleton from '@mui/material/Skeleton';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -13,11 +15,12 @@ import ProfileSummary from '../profile-summary';
 // ----------------------------------------------------------------------
 
 export default function ProfileView() {
+  const { t } = useTranslation();
   const { user } = useAuthStore();
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Perfil
+        {t('profile')}
       </Typography>
 
       {user ? (
@@ -37,10 +40,10 @@ export default function ProfileView() {
           <Grid xs={12} md={6} lg={8}>
             <ProfileInfo
               type="edit_personal_info"
-              title="Personal information"
+              title={t('personal-information')}
               data={[
-                { field: 'Name', info: user.first_name },
-                { field: 'Surname', info: user.last_name },
+                { field: t('name'), info: user.first_name },
+                { field: t('surname'), info: user.last_name },
                 { field: 'Main events', info: user.main_events },
                 { field: 'birthday', info: fDate(new Date('10-10-1996')) },
                 { field: 'Gender', info: 'Male' },
