@@ -20,17 +20,32 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import General from './trainingInputs/general';
+import Pyramid from './trainingInputs/pyramid';
+import DescriptionOnly from './trainingInputs/descriptionOnly';
+
 export default function NewTraining(props) {
   const { title, subheader, exerciseTypes } = props;
-  const { handleSubmit, control, reset, formState } = useForm();
+  const { handleSubmit, control, reset, formState, watch } = useForm();
   const setAndRepsOptions = Array.from({ length: 16 }, (_, index) => index);
   const [list, setList] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
+  const trainingType = watch('type');
   const areAllFieldsFilled = formState.isValid;
 
   const onSubmit = (data) => {
     setList((prevExercises) => [...prevExercises, data]);
     reset();
+  };
+
+  const displayCorrectInput = () => {
+    if (trainingType === 'Pirámide') {
+      return <Pyramid control={control} series={[100, 200]} />;
+    }
+    if (trainingType === 'Calentamiento') {
+      return <DescriptionOnly control={control} />;
+    }
+    return <General setAndRepsOptions={setAndRepsOptions} control={control} />;
   };
 
   return (
@@ -79,79 +94,7 @@ export default function NewTraining(props) {
                   )}
                 />
               </Grid>
-              <Grid item xs={2}>
-                <Controller
-                  name="sets"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      size="small"
-                      onChange={(event, value) => field.onChange(value)}
-                      options={setAndRepsOptions}
-                      getOptionLabel={(option) => option.toString()}
-                      renderInput={(params) => <TextField {...params} label="Bloques" fullWidth />}
-                    />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={2}>
-                <Controller
-                  name="reps"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      size="small"
-                      onChange={(event, value) => field.onChange(value)}
-                      options={setAndRepsOptions}
-                      getOptionLabel={(option) => option.toString()}
-                      renderInput={(params) => <TextField {...params} label="Series" fullWidth />}
-                    />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Controller
-                  name="exercise"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      size="small"
-                      onChange={(event, value) => field.onChange(value)}
-                      options={['100', '200', '300']}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Actividad" fullWidth />
-                      )}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <Controller
-                  name="intensity"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      size="small"
-                      onChange={(event, value) => field.onChange(value)}
-                      options={Array.from({ length: 101 }, (_, index) => index)}
-                      getOptionLabel={(option) => option.toString()}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Intensidad" fullWidth />
-                      )}
-                    />
-                  )}
-                />
-              </Grid>
+              {displayCorrectInput()}
               <Grid item xs={1}>
                 <IconButton color="success" type="submit" disabled={!areAllFieldsFilled}>
                   <Iconify icon="material-symbols:check-circle" />

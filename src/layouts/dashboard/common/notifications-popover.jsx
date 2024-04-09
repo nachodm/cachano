@@ -1,6 +1,6 @@
+import { sub } from 'date-fns';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { set, sub } from 'date-fns';
 import { faker } from '@faker-js/faker';
 
 import Box from '@mui/material/Box';
@@ -26,15 +26,15 @@ import Scrollbar from 'src/components/scrollbar';
 // ----------------------------------------------------------------------
 
 const NOTIFICATIONS = [
-  {
-    id: faker.string.uuid(),
-    title: 'Your order is placed',
-    description: 'waiting for shipping',
-    avatar: null,
-    type: 'order_placed',
-    createdAt: set(new Date(), { hours: 10, minutes: 30 }),
-    isUnRead: true,
-  },
+  // {
+  //   id: faker.string.uuid(),
+  //   title: 'Your order is placed',
+  //   description: 'waiting for shipping',
+  //   avatar: null,
+  //   type: 'order_placed',
+  //   createdAt: set(new Date(), { hours: 10, minutes: 30 }),
+  //   isUnRead: true,
+  // },
   {
     id: faker.string.uuid(),
     title: faker.person.fullName(),
@@ -55,22 +55,22 @@ const NOTIFICATIONS = [
   },
   {
     id: faker.string.uuid(),
-    title: 'You have new mail',
-    description: 'sent from Guido Padberg',
+    title: 'New training week uploaded!',
+    description: 'Sara Montero',
     avatar: null,
     type: 'mail',
     createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
     isUnRead: false,
   },
-  {
-    id: faker.string.uuid(),
-    title: 'Delivery processing',
-    description: 'Your order is being shipped',
-    avatar: null,
-    type: 'order_shipped',
-    createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
+  // {
+  //   id: faker.string.uuid(),
+  //   title: 'Delivery processing',
+  //   description: 'Your order is being shipped',
+  //   avatar: null,
+  //   type: 'order_shipped',
+  //   createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
+  //   isUnRead: false,
+  // },
 ];
 
 export default function NotificationsPopover() {
