@@ -37,7 +37,7 @@ export default function ProfileView() {
             <ProfileSummary title="Entrenamientos registrados" total="90%" color="info" />
           </Grid>
 
-          <Grid xs={12} md={6} lg={8}>
+          <Grid xs={12} md={6} lg={7}>
             <ProfileInfo
               type="edit_personal_info"
               title={t('personal-information')}
@@ -51,7 +51,7 @@ export default function ProfileView() {
             />
           </Grid>
 
-          <Grid xs={12} md={6} lg={4}>
+          <Grid xs={12} md={6} lg={5}>
             <ProfileInfo
               type="edit_personal_best"
               title="Personal best"

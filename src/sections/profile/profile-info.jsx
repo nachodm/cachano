@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 
@@ -27,28 +26,20 @@ export default function ProfileInfo({ type, title, data }) {
 
   return (
     <Card>
-      <CardHeader title={title} sx={{ mb: 2 }} />
+      <CardHeader title={title} sx={{ mb: 1 }} />
 
       <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+        <Stack spacing={3} sx={{ py: 2, px: 3 }} direction="column">
           {data.map((item, i) => (
-            <Item key={`field-${i}`} field={item.field} info={item.info} date={item.date} />
+            <Box key={`field-${i}`} display="flex" justifyContent="space-between">
+              <Item field={item.field} info={item.info} date={item.date} />
+              <IconButton onClick={handleClick}>
+                <Iconify icon="mdi:edit" />
+              </IconButton>
+            </Box>
           ))}
         </Stack>
       </Scrollbar>
-
-      <Divider sx={{ borderStyle: 'dashed' }} />
-
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
-          onClick={handleClick}
-        >
-          Editar
-        </Button>
-      </Box>
       <EditDialog type={type} open={open} handleClose={handleClose} data={data} />
     </Card>
   );
@@ -70,7 +61,7 @@ function Item(props) {
   const { field, info, date } = props;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" alignItems="center" spacing={2} flex={1}>
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
         <Typography color="inherit" variant="subtitle2" underline="hover" noWrap>
           {field}
