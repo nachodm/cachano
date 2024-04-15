@@ -19,52 +19,34 @@ export default function Router() {
   const routes = useRoutes([
     {
       element: (
-        <DashboardLayout>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
+        <ProtectedRoute>
+          <DashboardLayout>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </ProtectedRoute>
       ),
       children: [
         {
-          element: (
-            <ProtectedRoute>
-              <IndexPage />
-            </ProtectedRoute>
-          ),
+          element: <IndexPage />,
           index: true,
         },
         {
           path: 'user',
-          element: (
-            <ProtectedRoute>
-              <UserPage />
-            </ProtectedRoute>
-          ),
+          element: <UserPage />,
         },
         {
           path: 'calendar',
-          element: (
-            <ProtectedRoute>
-              <CalendarPage />
-            </ProtectedRoute>
-          ),
+          element: <CalendarPage />,
         },
         {
           path: 'profile',
-          element: (
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          ),
+          element: <ProfilePage />,
         },
         {
           path: 'add-training',
-          element: (
-            <ProtectedRoute>
-              <AddTrainingPage />
-            </ProtectedRoute>
-          ),
+          element: <AddTrainingPage />,
         },
       ],
     },

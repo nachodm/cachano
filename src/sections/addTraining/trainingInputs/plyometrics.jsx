@@ -10,12 +10,12 @@ import { createNumberArray } from 'src/utils/format-arrays';
 
 // ----------------------------------------------------------------------
 
-export default function General({ control }) {
+export default function Plyometrics({ control }) {
   return (
     <Fragment>
       <Grid item xs={2}>
         <Controller
-          name="sets"
+          name="hurdles"
           control={control}
           defaultValue={null}
           render={({ field }) => (
@@ -28,7 +28,7 @@ export default function General({ control }) {
               }}
               options={createNumberArray(15)}
               getOptionLabel={(option) => option.toString()}
-              renderInput={(params) => <TextField {...params} label="Bloques" fullWidth />}
+              renderInput={(params) => <TextField {...params} label="Vallas" fullWidth />}
             />
           )}
         />
@@ -49,15 +49,15 @@ export default function General({ control }) {
               }}
               options={createNumberArray(15)}
               getOptionLabel={(option) => option.toString()}
-              renderInput={(params) => <TextField {...params} label="Series" fullWidth />}
+              renderInput={(params) => <TextField {...params} label="Pasadas" fullWidth />}
             />
           )}
         />
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={2}>
         <Controller
-          name="exercise"
+          name="jumps"
           control={control}
           defaultValue={null}
           render={({ field }) => (
@@ -68,15 +68,16 @@ export default function General({ control }) {
               onInputChange={(_, data) => {
                 if (data) field.onChange(data);
               }}
-              options={['100', '200', '300']}
-              renderInput={(params) => <TextField {...params} label="Actividad" fullWidth />}
+              options={createNumberArray(5)}
+              getOptionLabel={(option) => option.toString()}
+              renderInput={(params) => <TextField {...params} label="Apoyos" fullWidth />}
             />
           )}
         />
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={3}>
         <Controller
-          name="intensity"
+          name="Description"
           control={control}
           defaultValue={null}
           render={({ field }) => (
@@ -87,9 +88,8 @@ export default function General({ control }) {
               onInputChange={(_, data) => {
                 if (data) field.onChange(data);
               }}
-              options={createNumberArray(100)}
-              getOptionLabel={(option) => option.toString()}
-              renderInput={(params) => <TextField {...params} label="Intensidad" fullWidth />}
+              options={['3 bloques subiendo altura']}
+              renderInput={(params) => <TextField {...params} label="Description" fullWidth />}
             />
           )}
         />
@@ -98,6 +98,6 @@ export default function General({ control }) {
   );
 }
 
-General.propTypes = {
+Plyometrics.propTypes = {
   control: PropTypes.any,
 };

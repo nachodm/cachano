@@ -16,11 +16,14 @@ export default function DescriptionOnly({ control }) {
         defaultValue={null}
         render={({ field }) => (
           <Autocomplete
+            freeSolo
             {...field}
             size="small"
             onChange={(event, value) => field.onChange(value)}
-            options={Array.from({ length: 101 }, (_, index) => index)}
-            getOptionLabel={(option) => option.toString()}
+            onInputChange={(_, data) => {
+              if (data) field.onChange(data);
+            }}
+            options={["5'", "10'", "15'", '3 vueltas', '4 vueltas']}
             renderInput={(params) => <TextField {...params} label="Description" fullWidth />}
           />
         )}

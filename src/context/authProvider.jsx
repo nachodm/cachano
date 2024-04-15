@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext, createContext } from 'react';
 
 import { supabase } from 'src/utils/supabase';
@@ -7,7 +8,7 @@ import { useAuthStore } from 'src/store/authStore';
 
 const AuthContext = createContext({});
 
-export const useAuth = () => useContext(AuthContext);
+export const UseAuth = () => useContext(AuthContext);
 
 // const signUpNewUser = () => {
 //   const { data, error } = supabase.auth.signUp({
@@ -28,14 +29,17 @@ const updatePassword = (updatedPassword) => supabase.auth.updateUser({ password:
 
 const AuthProvider = ({ children }) => {
   const { user, signIn, signOut, setUser } = useAuthStore();
+  const navigate = useNavigate();
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setLoading(true);
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const { user: currentUser } = data;
       await setUser(currentUser ?? null);
+      setAuth(!!currentUser);
       setLoading(false);
     };
     getUser();
@@ -45,6 +49,7 @@ const AuthProvider = ({ children }) => {
       } else if (event === 'SIGNED_IN') {
         setUser(session.user);
         setAuth(true);
+        navigate('/');
       } else if (event === 'SIGNED_OUT') {
         setAuth(false);
         setUser(null);
@@ -53,7 +58,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [setUser]);
+  }, [setUser, navigate]);
 
   return (
     <AuthContext.Provider

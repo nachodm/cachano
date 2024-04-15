@@ -1,3 +1,5 @@
+/* eslint-disable unused-imports/no-unused-imports */
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -33,7 +35,7 @@ export default function ProfileInfo({ type, title, data }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ py: 2, px: 3 }} direction="column">
           {data.map((item, i) => (
-            <Box key={`field-${i}`} display="flex" justifyContent="space-between">
+            <Box key={`${item.field}-field-${i}`} display="flex" justifyContent="space-between">
               <Item field={item.field} info={item.info} date={item.date} />
               <IconButton onClick={handleClick(item)}>
                 <Iconify icon="mdi:edit" />
@@ -42,7 +44,9 @@ export default function ProfileInfo({ type, title, data }) {
           ))}
         </Stack>
       </Scrollbar>
-      <EditDialog type={type} open={open} handleClose={handleClose} item={itemClicked} />
+      {itemClicked && (
+        <EditDialog type={type} open={open} handleClose={handleClose} item={itemClicked} />
+      )}
     </Card>
   );
 }

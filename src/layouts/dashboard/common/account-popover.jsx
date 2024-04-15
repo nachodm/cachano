@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
-import { useAuth } from 'src/context/authProvider';
 import { useAuthStore } from 'src/store/authStore';
 
 // ----------------------------------------------------------------------
@@ -20,7 +19,7 @@ import { useAuthStore } from 'src/store/authStore';
 export default function AccountPopover() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(null);
-  const { signOut } = useAuth();
+  const { signOut } = useAuthStore();
   const { user } = useAuthStore();
   const navigate = useNavigate();
 

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -11,7 +10,6 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Collapse from '@mui/material/Collapse';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
@@ -20,14 +18,15 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import TrainingItem from './trainingItem';
 import General from './trainingInputs/general';
 import Pyramid from './trainingInputs/pyramid';
+import Plyometrics from './trainingInputs/plyometrics';
 import DescriptionOnly from './trainingInputs/descriptionOnly';
 
 export default function NewTraining(props) {
   const { title, subheader, exerciseTypes } = props;
-  const { handleSubmit, control, reset, formState, watch } = useForm();
-  const setAndRepsOptions = Array.from({ length: 16 }, (_, index) => index);
+  const { handleSubmit, control, reset, formState, watch, register } = useForm();
   const [list, setList] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const trainingType = watch('type');
@@ -39,13 +38,16 @@ export default function NewTraining(props) {
   };
 
   const displayCorrectInput = () => {
-    if (trainingType === 'Pirámide') {
-      return <Pyramid control={control} series={[100, 200]} />;
+    switch (trainingType) {
+      case 'Calentamiento':
+        return <DescriptionOnly control={control} />;
+      case 'Pirámide':
+        return <Pyramid control={control} series={[100, 200]} />;
+      case 'Pliometría':
+        return <Plyometrics control={control} />;
+      default:
+        return <General control={control} />;
     }
-    if (trainingType === 'Calentamiento') {
-      return <DescriptionOnly control={control} />;
-    }
-    return <General setAndRepsOptions={setAndRepsOptions} control={control} />;
   };
 
   return (
@@ -88,8 +90,20 @@ export default function NewTraining(props) {
                       {...field}
                       size="small"
                       onChange={(event, value) => field.onChange(value)}
+                      onInputChange={(_, data) => {
+                        if (data) field.onChange(data);
+                      }}
                       options={exerciseTypes}
-                      renderInput={(params) => <TextField {...params} label="Tipo" fullWidth />}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Tipo"
+                          fullWidth
+                          {...register('type', {
+                            required: 'Required field',
+                          })}
+                        />
+                      )}
                     />
                   )}
                 />
@@ -117,51 +131,4 @@ NewTraining.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   exerciseTypes: PropTypes.array,
-};
-
-// ----------------------------------------------------------------------
-
-function TrainingItem({ training }) {
-  const { sets, reps, exercise, intensity, pb, type } = training;
-  const suggested = pb * intensity;
-  return (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Box
-        component="img"
-        alt={exercise}
-        src={
-          type !== 'series'
-            ? `/assets/images/training/track.png`
-            : `/assets/images/training/track.png`
-        }
-        sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
-      />
-
-      <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
-          {sets}x{reps}x{exercise}
-        </Link>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          Intensidad: {intensity}% Ritmo: {suggested}
-        </Typography>
-      </Box>
-
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {type}
-      </Typography>
-    </Stack>
-  );
-}
-
-TrainingItem.propTypes = {
-  training: PropTypes.shape({
-    sets: PropTypes.number,
-    reps: PropTypes.number,
-    exercise: PropTypes.string,
-    intensity: PropTypes.number,
-    pb: PropTypes.number,
-    description: PropTypes.string,
-    type: PropTypes.string,
-  }),
 };
