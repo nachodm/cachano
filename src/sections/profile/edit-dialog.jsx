@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-export default function EditDialog({ type, open, handleClose, data }) {
+export default function EditDialog({ type, open, handleClose, item }) {
   let title;
   if (type === 'edit_personal_info') {
     title = 'Editar información personal';
@@ -36,21 +36,18 @@ export default function EditDialog({ type, open, handleClose, data }) {
         <DialogContentText>
           Actualizar estos datos puede verse reflejado en tu diario de entrenamiento.
         </DialogContentText>
-        {data.map((item, i) => (
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name={item.field}
-            label={item.field}
-            type="string"
-            fullWidth
-            variant="standard"
-            helperText={item.info}
-            key={`item-${i}`}
-          />
-        ))}
+        <TextField
+          autoFocus
+          required
+          margin="dense"
+          id="name"
+          name={item.field}
+          label={item.field}
+          type="string"
+          fullWidth
+          variant="standard"
+          helperText={item.info}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -64,11 +61,9 @@ EditDialog.propTypes = {
   type: PropTypes.string,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string,
-      info: PropTypes.string,
-      date: PropTypes.string,
-    })
-  ),
+  item: PropTypes.shape({
+    field: PropTypes.string,
+    info: PropTypes.string,
+    date: PropTypes.string,
+  }),
 };

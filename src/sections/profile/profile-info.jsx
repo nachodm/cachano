@@ -15,8 +15,10 @@ import EditDialog from './edit-dialog';
 
 export default function ProfileInfo({ type, title, data }) {
   const [open, setOpen] = useState(false);
+  const [itemClicked, setItemClicked] = useState(null);
 
-  const handleClick = () => {
+  const handleClick = (item) => {
+    setItemClicked(item);
     setOpen(true);
   };
 
@@ -33,14 +35,14 @@ export default function ProfileInfo({ type, title, data }) {
           {data.map((item, i) => (
             <Box key={`field-${i}`} display="flex" justifyContent="space-between">
               <Item field={item.field} info={item.info} date={item.date} />
-              <IconButton onClick={handleClick}>
+              <IconButton onClick={handleClick(item)}>
                 <Iconify icon="mdi:edit" />
               </IconButton>
             </Box>
           ))}
         </Stack>
       </Scrollbar>
-      <EditDialog type={type} open={open} handleClose={handleClose} data={data} />
+      <EditDialog type={type} open={open} handleClose={handleClose} item={itemClicked} />
     </Card>
   );
 }

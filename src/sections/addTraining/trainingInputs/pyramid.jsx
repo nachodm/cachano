@@ -9,7 +9,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 // ----------------------------------------------------------------------
 
 export default function Pyramid({ control, series }) {
-  console.log(series);
   return (
     <Fragment>
       <Grid item xs={3}>

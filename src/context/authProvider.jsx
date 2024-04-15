@@ -30,20 +30,13 @@ const AuthProvider = ({ children }) => {
   const { user, signIn, signOut, setUser } = useAuthStore();
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     setLoading(true);
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const { user: currentUser } = data;
-      if (!currentUser) {
-        setAuth(false);
-        setLoading(false);
-      } else {
-        await setUser(currentUser);
-        setAuth(true);
-        setLoading(false);
-      }
+      await setUser(currentUser ?? null);
+      setLoading(false);
     };
     getUser();
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
