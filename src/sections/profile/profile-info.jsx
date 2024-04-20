@@ -35,9 +35,9 @@ export default function ProfileInfo({ type, title, data }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ py: 2, px: 3 }} direction="column">
           {data.map((item, i) => (
-            <Box key={`${item.field}-field-${i}`} display="flex" justifyContent="space-between">
+            <Box key={`${item.field}-${i}`} display="flex" justifyContent="space-between">
               <Item field={item.field} info={item.info} date={item.date} />
-              <IconButton onClick={handleClick(item)}>
+              <IconButton onClick={() => handleClick(item)}>
                 <Iconify icon="mdi:edit" />
               </IconButton>
             </Box>

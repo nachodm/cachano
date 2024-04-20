@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 export default function TrainingItem({ training }) {
   const { sets, reps, exercise, intensity, pb, type, description, hurdles, jumps } = training;
   const [body, setBody] = useState({ title: null, secondaryTitle: null, picture: 'track.png' });
+  const recommended = Number.isNaN(pb * intensity) ? '-' : pb * intensity;
 
   useEffect(() => {
     switch (type) {
@@ -25,19 +26,38 @@ export default function TrainingItem({ training }) {
       case 'Pliometría':
         setBody({
           title: `${reps}x${hurdles} vallas a ${jumps} rebotes`,
-          secondaryTitle: { description },
+          secondaryTitle: description,
           picture: 'hurdles.png',
+        });
+        break;
+      case 'Gym':
+        setBody({
+          title: `${exercise}`,
+          secondaryTitle: `${sets}x${reps}. Intensidad: ${intensity}%. Peso:${recommended}kg`,
+          picture: 'gym.png',
         });
         break;
       default:
         setBody({
           title: sets === 1 ? `${reps}x${exercise}` : `${sets}x${reps}x${exercise}`,
-          secondaryTitle: `Intensidad: ${intensity}%. Ritmo:${pb * intensity}`,
+          secondaryTitle: `Intensidad: ${intensity}%. Ritmo:${recommended}`,
           picture: 'track.png',
         });
         break;
     }
-  }, [body, description, exercise, hurdles, intensity, jumps, pb, reps, sets, type, setBody]);
+  }, [
+    body,
+    description,
+    exercise,
+    hurdles,
+    intensity,
+    jumps,
+    reps,
+    sets,
+    type,
+    setBody,
+    recommended,
+  ]);
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>

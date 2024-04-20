@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     setLoading(true);
+
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const { user: currentUser } = data;

@@ -8,8 +8,35 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
+import { supabase } from 'src/utils/supabase';
+
+import { useAuthStore } from 'src/store/authStore';
+
 export default function EditDialog({ type, open, handleClose, item }) {
   let title;
+
+  const { user } = useAuthStore();
+
+  const handleUpdate = async () => {
+    try {
+      const { data, error } = await supabase.from('personal_best').upsert([
+        {
+          exercise: item.field,
+          record: item.info,
+          user_id: user.id,
+          date: new Date(),
+        },
+      ]);
+
+      if (error) {
+        console.error('Error al insertar la fila:', error.message);
+      } else {
+        console.log('Fila insertada correctamente:', data);
+      }
+    } catch (error) {
+      console.error('Error en handleClick:', error.message);
+    }
+  };
   if (type === 'edit_personal_info') {
     title = 'Editar información personal';
   } else {
@@ -51,7 +78,9 @@ export default function EditDialog({ type, open, handleClose, item }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit">Update</Button>
+        <Button type="submit" onClick={handleUpdate}>
+          Update
+        </Button>
       </DialogActions>
     </Dialog>
   );
