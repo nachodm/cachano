@@ -1,6 +1,14 @@
 {
+  "add-new-user-description": "Enviaremos un email de invitación si el atleta aún no tiene cuenta en nuestra plataforma.",
+  "add-user": "Añadir atleta",
+  "cancel": "Cancelar",
+  "error-message": "Ups, algo ha ido mal por nuestra parte. Por favor. vuelve a intentarlo más tarde",
+  "invite": "Invitar",
   "name": "Nombre",
-  "surname": "Apellidos",
+  "new-user-form-message": "Para asegurar la mejor experiencia de usuario, necesitamos que nos proporciones algunos datos sobre ti:",
   "personal-information": "Datos personales",
-  "profile": "Perfil"
+  "profile": "Perfil",
+  "success-message": "¡Hecho!",
+  "surname": "Apellidos",
+  "welcome": "¿Nuevo por aquí?"
 }

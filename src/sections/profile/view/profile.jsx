@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Skeleton from '@mui/material/Skeleton';
@@ -8,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import { fDate } from 'src/utils/format-time';
 
 import { useAuthStore } from 'src/store/authStore';
+import { useUserStore } from 'src/store/userStore';
+import { useExerciseStore } from 'src/store/dataStore';
+import { loadExercises, loadPersonalBest } from 'src/database/trainingQueries';
 
 import ProfileInfo from '../profile-info';
 import ProfileSummary from '../profile-summary';
@@ -17,6 +21,21 @@ import ProfileSummary from '../profile-summary';
 export default function ProfileView() {
   const { t } = useTranslation();
   const { user } = useAuthStore();
+  const { personalBest, setPersonalBest } = useUserStore();
+  const { exercises, setExercises } = useExerciseStore();
+  useEffect(() => {
+    const loadData = async () => {
+      const ex = await loadExercises();
+      setExercises({ exercises: ex });
+      const pb = await loadPersonalBest();
+      setPersonalBest({ personalBest: pb });
+    };
+
+    // Llamada a la función loadData en algún lugar de tu aplicación
+    loadData();
+  }, [setExercises, setPersonalBest]);
+  console.log(personalBest);
+  console.log(exercises);
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -45,8 +64,7 @@ export default function ProfileView() {
                 { field: t('name'), info: user.first_name },
                 { field: t('surname'), info: user.last_name },
                 { field: 'Main events', info: user.main_events },
-                { field: 'birthday', info: fDate(new Date('10-10-1996')) },
-                { field: 'Gender', info: 'Male' },
+                // { field: 'birthday', info: fDate(new Date('10-10-1996')) },
               ]}
             />
           </Grid>

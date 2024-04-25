@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { useState, useEffect } from 'react';
+import { lazy, useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -8,15 +8,23 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 
+import { supabase } from 'src/utils/supabase';
+
+import { useAuthStore } from 'src/store/authStore';
 import { useTrainingGroupStore } from 'src/store/trainingGroupStore';
 
 import AppTraining from '../app-training';
+
+const NewUserForm = lazy(() => import('../new-user-form'));
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
   const { loadWeekTrainingSessions } = useTrainingGroupStore();
+  const { user } = useAuthStore();
   const [todaySession, setTodaySession] = useState(null);
+  const [open, setOpen] = useState(user.showNewUserForm || false);
+
   useEffect(() => {
     const getSessions = async () => {
       await loadWeekTrainingSessions(new Date());
@@ -24,6 +32,65 @@ export default function AppView() {
     };
     getSessions();
   }, [loadWeekTrainingSessions]);
+
+  const loadNewUserInfo = async (form) => {
+    const today = new Date().toISOString();
+    try {
+      const profilePromise = supabase
+        .from('profiles')
+        .update({
+          first_name: form.name,
+          last_name: form.surname,
+          main_events: form['main-events'],
+          showNewUserForm: false,
+        })
+        .eq('id', user.id);
+
+      const personalBestPromise = supabase.from('personal_best').upsert([
+        {
+          record: form['60m'],
+          exercise: 4,
+          user_id: user.id,
+          date: today,
+        },
+        {
+          record: form['100m'],
+          exercise: 6,
+          user_id: user.id,
+          date: today,
+        },
+        {
+          record: form['200m'],
+          exercise: 10,
+          user_id: user.id,
+          date: today,
+        },
+      ]);
+
+      const [profileResult, personalBestResult] = await Promise.all([
+        profilePromise,
+        personalBestPromise,
+      ]);
+
+      if (profileResult.error) {
+        console.error('Error al insertar el perfil:', profileResult.error.message);
+      } else {
+        console.log('Perfil insertado correctamente:', profileResult.data);
+      }
+
+      if (personalBestResult.error) {
+        console.error(
+          'Error al insertar los registros personales:',
+          personalBestResult.error.message
+        );
+      } else {
+        console.log('Registros personales insertados correctamente:', personalBestResult.data);
+      }
+    } catch (error) {
+      console.error('Error al cargar la nueva información del usuario:', error.message);
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -74,48 +141,6 @@ export default function AppView() {
             total={234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="Carga"
-            subheader="(+43%) than last year"
-            chart={{
-              labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ],
-              series: [
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ],
-            }}
           />
         </Grid>
 
@@ -198,6 +223,9 @@ export default function AppView() {
             ]}
           />
         </Grid> */}
+        {user && (
+          <NewUserForm open={open} onClose={() => setOpen(false)} onSubmit={loadNewUserInfo} />
+        )}
       </Grid>
     </Container>
   );

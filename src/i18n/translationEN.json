@@ -1,6 +1,14 @@
 {
+  "add-new-user-description": "An invite email wil be sent to the provided email if the user is not in the platform.",
+  "add-user": "Add new athlete",
+  "cancel": "Cancel",
+  "error-message": "Oops, something went terribly wrong. Please try again later",
+  "invite": "Invite",
   "name": "Name",
-  "surname": "Surname",
+  "new-user-form-message": "To ensure the best experience, we need some info about you:",
   "personal-information": "Personal information",
-  "profile": "Profile"
+  "profile": "Profile",
+  "success-message": "Done!",
+  "surname": "Surname",
+  "welcome": "Welcome!"
 }

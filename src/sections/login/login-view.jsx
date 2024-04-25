@@ -44,7 +44,10 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to mrnxn</Typography>
+          <Stack direction="row" spacing={2}>
+            <Logo />
+            <Typography variant="h4">Welcome to MRNXN</Typography>
+          </Stack>
 
           <Auth
             supabaseClient={supabase}
