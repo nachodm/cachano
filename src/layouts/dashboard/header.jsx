@@ -28,11 +28,9 @@ export default function Header({ onOpenNav }) {
 
   const colorMode = useContext(ColorModeContext);
   const toggleColorMode = (_) => {
-    if (colorMode.mode === 'light') {
-      colorMode.setMode('dark');
-    } else {
-      colorMode.setMode('light');
-    }
+    const newMode = colorMode.mode === 'light' ? 'dark' : 'light';
+    colorMode.setMode(newMode);
+    localStorage.setItem('colorMode', newMode);
   };
   const lgUp = useResponsive('up', 'lg');
 

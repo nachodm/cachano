@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,22 +24,31 @@ export default function ProfileView() {
   const { user } = useAuthStore();
   const { personalBest, setPersonalBest } = useUserStore();
   const { exercises, setExercises } = useExerciseStore();
+
   useEffect(() => {
     const loadData = async () => {
-      const ex = await loadExercises();
-      setExercises({ exercises: ex });
-      const pb = await loadPersonalBest();
-      setPersonalBest({ personalBest: pb });
+      const loadedExercises = await loadExercises();
+      setExercises(loadedExercises);
+      const personalBests = await loadPersonalBest(user.id);
+      const processedPersonalBests = await personalBests.map((pb) => {
+        const matchedExercise = loadedExercises.find((e) => e.id === pb.exercise);
+        return {
+          id: matchedExercise.id,
+          field: matchedExercise.name,
+          info: pb.record,
+          date: pb.date,
+        };
+      });
+      console.log(processedPersonalBests);
+      setPersonalBest(processedPersonalBests);
     };
 
-    // Llamada a la función loadData en algún lugar de tu aplicación
     loadData();
-  }, [setExercises, setPersonalBest]);
-  console.log(personalBest);
-  console.log(exercises);
+  }, [setExercises, setPersonalBest, user.id]);
+
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
+      <Typography variant="h4" sx={{ mb: 4 }}>
         {t('profile')}
       </Typography>
 
@@ -53,7 +63,7 @@ export default function ProfileView() {
           </Grid>
 
           <Grid xs={12} sm={6} md={4}>
-            <ProfileSummary title="Entrenamientos registrados" total="90%" color="info" />
+            <ProfileSummary title="Entrenamientos registrados" total="0%" color="info" />
           </Grid>
 
           <Grid xs={12} md={6} lg={7}>
@@ -70,17 +80,7 @@ export default function ProfileView() {
           </Grid>
 
           <Grid xs={12} md={6} lg={5}>
-            <ProfileInfo
-              type="edit_personal_best"
-              title="Personal best"
-              data={[
-                { field: '60m', info: '7.12', date: fDate(new Date()) },
-                { field: '100m', info: '11.01', date: fDate(new Date()) },
-                { field: '150m', info: '16.80', date: fDate(new Date()) },
-                { field: '200m', info: '22.18', date: fDate(new Date()) },
-                { field: '300m', info: '36.5', date: fDate(new Date()) },
-              ]}
-            />
+            <ProfileInfo type="edit_personal_best" title="Personal best" data={personalBest} />
           </Grid>
         </Grid>
       ) : (

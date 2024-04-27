@@ -22,7 +22,7 @@ export default function CalendarView() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
         <Typography variant="h4">Calendar</Typography>
 
         <Button
@@ -36,7 +36,7 @@ export default function CalendarView() {
         </Button>
       </Stack>
 
-      <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+      <Stack mb={4} direction="row" alignItems="center" justifyContent="space-between">
         <DateCalendar
           value={value}
           onChange={(newValue) => setValue(startOfWeek(newValue, { weekStartsOn: 1 }))}

@@ -34,3 +34,8 @@ export const useTrainingGroupStore = create((set) => ({
     }
   },
 }));
+
+export const trainingGroupAthletesStore = create((set) => ({
+  athletes: [],
+  setAthletes: (exercises) => set({ exercises }),
+}));

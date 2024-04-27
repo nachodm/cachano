@@ -30,6 +30,18 @@ export default function UserPage() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
+  //  const { user } = useUserStore();
+  //  const { athletes, setAthletes } = useTrainingGroupAthletesStore();
+
+  //  useEffect(() => {
+  //    const loadData = async () => {
+  //      const ex = await loadTrainingGroupAthletes(user.group_affiliation);
+  //      setAthletes({ exercises: ex });
+  //    };
+
+  //    if (user.group_affiliation) loadData();
+  //  }, [setAthletes, user.group_affiliation]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -109,7 +121,7 @@ export default function UserPage() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
         <Typography variant="h4">Users</Typography>
 
         <Button

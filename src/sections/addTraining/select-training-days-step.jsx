@@ -22,7 +22,7 @@ export default function SelectTrainingDaysStep(props) {
   };
 
   return (
-    <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+    <Stack mb={4} direction="row" alignItems="center" justifyContent="space-between">
       <ToggleButtonGroup color="primary" value={schedule} onChange={handleChange} aria-label="Week">
         {week.map((day, i) => (
           <ToggleButton value={i} key={`option-${i}`}>

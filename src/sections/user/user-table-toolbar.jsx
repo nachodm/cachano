@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import Tooltip from '@mui/material/Tooltip';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +13,7 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
+  const { t } = useTranslation();
   return (
     <Toolbar
       sx={{
@@ -46,7 +48,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title={t('remove')}>
           <IconButton>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>

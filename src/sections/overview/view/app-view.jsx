@@ -30,8 +30,8 @@ export default function AppView() {
       await loadWeekTrainingSessions(new Date());
       setTodaySession(null);
     };
-    getSessions();
-  }, [loadWeekTrainingSessions]);
+    if (user.group_affiliation) getSessions();
+  }, [loadWeekTrainingSessions, user.group_affiliation]);
 
   const loadNewUserInfo = async (form) => {
     const today = new Date().toISOString();
@@ -93,7 +93,7 @@ export default function AppView() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
+      <Typography variant="h4" sx={{ mb: 4 }}>
         Hola, Sarartano 👋
       </Typography>
 
@@ -112,7 +112,18 @@ export default function AppView() {
             />
           ) : (
             <Card>
-              <CardHeader title="Rest day!" subheader="Enjoy your day off" />
+              <CardHeader
+                title={
+                  user.group_affiliation
+                    ? 'Rest day!'
+                    : "You're not part of any training group at the moment"
+                }
+                subheader={
+                  user.group_affiliation
+                    ? 'Enjoy your day off'
+                    : 'Daily trainings will appear here as soon as you become member of a training group. Please ask your manager to send you an invite'
+                }
+              />
               <CardContent />
             </Card>
           )}

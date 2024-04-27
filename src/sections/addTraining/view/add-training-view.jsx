@@ -51,7 +51,7 @@ export default function AddTrainingView() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
         <Typography variant="h4">Add training</Typography>
       </Stack>
       <Stepper activeStep={activeStep} orientation="vertical">

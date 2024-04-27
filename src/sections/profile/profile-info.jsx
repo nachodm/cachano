@@ -1,11 +1,10 @@
-/* eslint-disable unused-imports/no-unused-imports */
-/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import { Skeleton } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
@@ -34,14 +33,18 @@ export default function ProfileInfo({ type, title, data }) {
 
       <Scrollbar>
         <Stack spacing={3} sx={{ py: 2, px: 3 }} direction="column">
-          {data.map((item, i) => (
-            <Box key={`${item.field}-${i}`} display="flex" justifyContent="space-between">
-              <Item field={item.field} info={item.info} date={item.date} />
-              <IconButton onClick={() => handleClick(item)}>
-                <Iconify icon="mdi:edit" />
-              </IconButton>
-            </Box>
-          ))}
+          {!data ? (
+            <Skeleton variant="rectangular" height={40} />
+          ) : (
+            data.map((item, i) => (
+              <Box key={`${item.field}-${i}`} display="flex" justifyContent="space-between">
+                <Item field={item.field} info={item.info} date={item.date} />
+                <IconButton onClick={() => handleClick(item)}>
+                  <Iconify icon="mdi:edit" />
+                </IconButton>
+              </Box>
+            ))
+          )}
         </Stack>
       </Scrollbar>
       {itemClicked && (
@@ -56,8 +59,9 @@ ProfileInfo.propTypes = {
   title: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number,
       field: PropTypes.string,
-      info: PropTypes.string,
+      info: PropTypes.any,
       date: PropTypes.string,
     })
   ),
@@ -88,7 +92,9 @@ function Item(props) {
 }
 
 Item.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
+  id: PropTypes.number,
   field: PropTypes.string.isRequired,
-  info: PropTypes.string.isRequired,
+  info: PropTypes.any.isRequired,
   date: PropTypes.string,
 };

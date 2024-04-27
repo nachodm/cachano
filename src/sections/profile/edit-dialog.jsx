@@ -14,24 +14,39 @@ import { useAuthStore } from 'src/store/authStore';
 
 export default function EditDialog({ type, open, handleClose, item }) {
   let title;
-
+  console.log(item);
   const { user } = useAuthStore();
 
   const handleUpdate = async () => {
     try {
-      const { data, error } = await supabase.from('personal_best').upsert([
-        {
-          exercise: item.field,
-          record: item.info,
-          user_id: user.id,
-          date: new Date(),
-        },
-      ]);
+      if (type === 'edit_personal_info') {
+        const { data, error } = await supabase
+          .from('profiles')
+          .update({
+            [item.field]: item.info,
+          })
+          .eq('id', user.id);
 
-      if (error) {
-        console.error('Error al insertar la fila:', error.message);
+        if (error) {
+          console.error('Error al insertar la fila:', error.message);
+        } else {
+          console.log('Fila insertada correctamente:', data);
+        }
       } else {
-        console.log('Fila insertada correctamente:', data);
+        const { data, error } = await supabase.from('personal_best').upsert([
+          {
+            exercise: item.id,
+            record: item.info,
+            user_id: user.id,
+            date: new Date(),
+          },
+        ]);
+
+        if (error) {
+          console.error('Error al insertar la fila:', error.message);
+        } else {
+          console.log('Fila insertada correctamente:', data);
+        }
       }
     } catch (error) {
       console.error('Error en handleClick:', error.message);
@@ -91,8 +106,9 @@ EditDialog.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
   item: PropTypes.shape({
+    id: PropTypes.number,
     field: PropTypes.string,
-    info: PropTypes.string,
+    info: PropTypes.any,
     date: PropTypes.string,
   }),
 };

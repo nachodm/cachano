@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -16,17 +17,10 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({
-  selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
-  status,
-  handleClick,
-}) {
+export default function UserTableRow(props) {
+  const { selected, name, avatarUrl, company, role, isVerified, status, handleClick } = props;
   const [open, setOpen] = useState(null);
+  const { t } = useTranslation();
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -86,7 +80,7 @@ export default function UserTableRow({
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          {t('remove')}
         </MenuItem>
       </Popover>
     </>

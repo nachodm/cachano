@@ -12,7 +12,7 @@ export default function SelectWeekStep(props) {
   const { selectedDate, setSelectedDate, hoveredDay, setHoveredDay } = props;
 
   return (
-    <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+    <Stack mb={4} direction="row" alignItems="center" justifyContent="space-between">
       <DateCalendar
         value={selectedDate}
         onChange={(newValue) => setSelectedDate(startOfWeek(newValue, { weekStartsOn: 1 }))}

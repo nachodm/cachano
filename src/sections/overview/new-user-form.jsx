@@ -147,8 +147,6 @@ export default function NewUserForm({ open, onClose, onSubmit }) {
   };
 
   const handleFinish = (data) => {
-    console.log('data', data);
-    // Llama a la función onSubmit pasando los datos del formulario
     onSubmit(data);
     onClose();
   };

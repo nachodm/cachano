@@ -15,7 +15,10 @@ import { customShadows } from './custom-shadows';
 export const ColorModeContext = createContext({ mode: 'light', setMode: () => {} });
 
 export default function ThemeProvider({ children }) {
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState(() => {
+    const savedMode = localStorage.getItem('colorMode');
+    return savedMode || 'light';
+  });
   const colorMode = useMemo(
     () => ({
       mode,
