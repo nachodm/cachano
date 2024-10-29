@@ -18,7 +18,7 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow(props) {
-  const { selected, name, avatarUrl, company, role, isVerified, status, handleClick } = props;
+  const { selected, name, avatarUrl, mainEvent, isVerified, status, handleClick } = props;
   const [open, setOpen] = useState(null);
   const { t } = useTranslation();
 
@@ -46,9 +46,7 @@ export default function UserTableRow(props) {
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
-
-        <TableCell>{role}</TableCell>
+        <TableCell>{mainEvent}</TableCell>
 
         <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
 
@@ -89,11 +87,10 @@ export default function UserTableRow(props) {
 
 UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
-  company: PropTypes.any,
   handleClick: PropTypes.func,
   isVerified: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
+  mainEvent: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
 };

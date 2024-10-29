@@ -22,7 +22,7 @@ export const UseAuth = () => useContext(AuthContext);
 
 const passwordReset = (email) =>
   supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: 'http://localhost:5173/update-password',
+    redirectTo: 'https://cachano.vercel.app/update-password',
   });
 
 const updatePassword = (updatedPassword) => supabase.auth.updateUser({ password: updatedPassword });

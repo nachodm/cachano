@@ -42,7 +42,7 @@ export default function NewTraining(props) {
       case 'Calentamiento':
         return <DescriptionOnly control={control} />;
       case 'Pirámide':
-        return <Pyramid control={control} series={[100, 200]} />;
+        return <Pyramid control={control} series={[60, 80, 100, 200, 300, 400]} />;
       case 'Pliometría':
         return <Plyometrics control={control} />;
       default:
@@ -115,12 +115,12 @@ export default function NewTraining(props) {
                 </IconButton>
               </Grid>
             </Grid>
+            <Box sx={{ p: 1, textAlign: 'right' }}>
+              <Button size="small" color="inherit" startIcon={<Iconify icon="mdi:plus" />}>
+                Save
+              </Button>
+            </Box>
           </form>
-          <Box sx={{ p: 1, textAlign: 'right' }}>
-            <Button size="small" color="inherit" startIcon={<Iconify icon="mdi:plus" />}>
-              Save
-            </Button>
-          </Box>
         </CardContent>
       </Collapse>
     </Card>
@@ -128,7 +128,7 @@ export default function NewTraining(props) {
 }
 
 NewTraining.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   subheader: PropTypes.string,
-  exerciseTypes: PropTypes.array,
+  exerciseTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

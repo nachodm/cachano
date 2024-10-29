@@ -29,3 +29,7 @@ export async function loadTrainingGroupAthletes(groupId) {
   if (error) throw error;
   return data;
 }
+
+export async function handleWeeklyTrainingUpload(schedule, selectedDate, trainings) {
+  return true;
+}

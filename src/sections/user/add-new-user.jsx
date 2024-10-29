@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
@@ -14,12 +13,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 import { supabase } from 'src/utils/supabase';
 
+import { useAlert } from 'src/context/alertProvider';
+
 export default function AddNewUser(props) {
   const { open, handleClose } = props;
+  const showAlert = useAlert();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [severity, setSeverity] = useState('success');
-  const [submitted, setSubmitted] = useState(false);
 
   return (
     <Dialog
@@ -35,12 +35,10 @@ export default function AddNewUser(props) {
           const { email } = formJson;
           const { data, error } = await supabase.auth.admin.inviteUserByEmail(email);
           if (error) {
-            setSeverity('error');
-            setSubmitted(true);
+            showAlert(t('error-message'), 'error');
           }
           if (data) {
-            setSeverity('success');
-            setSubmitted(true);
+            showAlert('Invitation sent successfully', 'success');
             handleClose();
           }
         },
@@ -67,10 +65,6 @@ export default function AddNewUser(props) {
           {loading ? <CircularProgress /> : t('invite')}
         </Button>
       </DialogActions>
-
-      <Alert severity={severity} autoHideDuration={3000} open={submitted}>
-        {severity === 'success' ? t('success-message') : t('error-message')}
-      </Alert>
     </Dialog>
   );
 }

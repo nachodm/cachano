@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import { format, addDays } from 'date-fns';
 
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+
+import { useAlert } from 'src/context/alertProvider';
 
 // ----------------------------------------------------------------------
 
 export default function SelectTrainingDaysStep(props) {
   const { schedule, selectedDate, setSchedule } = props;
+
+  const showAlert = useAlert();
   const week = [];
   new Array(7).fill().map((_, i) => week.push(format(addDays(selectedDate, i), 'EEEEEE dd')));
 
@@ -17,7 +20,7 @@ export default function SelectTrainingDaysStep(props) {
     if (newSchedule.length > 0) {
       setSchedule(newSchedule);
     } else {
-      <Alert severity="warning">At least one day should be selected.</Alert>;
+      showAlert('At least one day should be selected.', 'warning');
     }
   };
 

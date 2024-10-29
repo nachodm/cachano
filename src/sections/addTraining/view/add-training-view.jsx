@@ -14,15 +14,18 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useState, useEffect } from 'react';
 import { toDate, addDays, startOfWeek } from 'date-fns';
 
+import { useAlert } from 'src/context/alertProvider';
+
 import SelectWeekStep from '../select-week-step';
 import SelectTrainingDaysStep from '../select-training-days-step';
-import { loadExerciseTypes } from '../../../database/trainingQueries';
 import WeekTrainingSessionsStep from '../week-training-sessions-step';
+import { loadExerciseTypes, handleWeeklyTrainingUpload } from '../../../database/trainingQueries';
 
 // import PostCard from '../post-card';
 // import PostSort from '../post-sort';
 
 export default function AddTrainingView() {
+  const showAlert = useAlert();
   const [hoveredDay, setHoveredDay] = useState(null);
   const [selectedDate, setSelectedDate] = useState(toDate(addDays(startOfWeek(new Date()), 7)));
   const [schedule, setSchedule] = useState(() => [0, 1, 2, 3, 4, 5, 6]);
@@ -45,7 +48,12 @@ export default function AddTrainingView() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
+    if (handleWeeklyTrainingUpload(schedule, selectedDate, [])) {
+      showAlert('Training uploaded successfully.', 'success');
+    } else {
+      showAlert('Yikes, there was a problem', 'error');
+    }
     setActiveStep(0);
   };
 

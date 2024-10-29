@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import './i18n/i18n';
 import App from './app';
 import AuthProvider from './context/authProvider';
+import { AlertProvider } from './context/alertProvider';
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +17,9 @@ root.render(
     <BrowserRouter>
       <Suspense>
         <AuthProvider>
-          <App />
+          <AlertProvider>
+            <App />
+          </AlertProvider>
         </AuthProvider>
       </Suspense>
     </BrowserRouter>

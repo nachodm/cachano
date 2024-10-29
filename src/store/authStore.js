@@ -13,12 +13,13 @@ export const useAuthStore = create((set) => ({
         )
         .eq('email', user.email)
         .maybeSingle();
-      const fullUserInfo = {
-        ...user,
-        ...data,
-        displayName: [data.first_name, data.last_name].join(' '),
-      };
-      set({ user: fullUserInfo });
+      set({
+        user: {
+          ...user,
+          ...data,
+          displayName: [data.first_name, data.last_name].join(' '),
+        },
+      });
     } else set({ user });
   },
   signIn: async (email, password) => {
