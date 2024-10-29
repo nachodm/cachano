@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function DescriptionOnly({ control }) {
   return (
-    <Grid item xs={9}>
+    <Grid item xs={7} lg={9}>
       <Controller
         name="description"
         control={control}

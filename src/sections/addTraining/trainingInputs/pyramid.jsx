@@ -11,7 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 export default function Pyramid({ control, series }) {
   return (
     <Fragment>
-      <Grid item xs={3}>
+      <Grid item xs={5} lg={3}>
         <Controller
           name="series"
           control={control}
@@ -33,7 +33,7 @@ export default function Pyramid({ control, series }) {
         />
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={4} lg={3}>
         <Controller
           name="recovery"
           control={control}
@@ -52,7 +52,7 @@ export default function Pyramid({ control, series }) {
           )}
         />
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={5} lg={2}>
         <Controller
           name="intensity"
           control={control}

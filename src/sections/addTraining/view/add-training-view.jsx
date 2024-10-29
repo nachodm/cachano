@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react';
+import { toDate, addDays, startOfWeek } from 'date-fns';
+
 import Box from '@mui/material/Box';
 import Step from '@mui/material/Step';
 import Stack from '@mui/material/Stack';
@@ -9,20 +12,12 @@ import Typography from '@mui/material/Typography';
 import StepContent from '@mui/material/StepContent';
 import LinearProgress from '@mui/material/LinearProgress';
 
-// import { posts } from 'src/_mock/blog';
-
-import { useState, useEffect } from 'react';
-import { toDate, addDays, startOfWeek } from 'date-fns';
-
 import { useAlert } from 'src/context/alertProvider';
 
 import SelectWeekStep from '../select-week-step';
 import SelectTrainingDaysStep from '../select-training-days-step';
 import WeekTrainingSessionsStep from '../week-training-sessions-step';
 import { loadExerciseTypes, handleWeeklyTrainingUpload } from '../../../database/trainingQueries';
-
-// import PostCard from '../post-card';
-// import PostSort from '../post-sort';
 
 export default function AddTrainingView() {
   const showAlert = useAlert();
@@ -132,22 +127,6 @@ export default function AddTrainingView() {
           </StepContent>
         </Step>
       </Stepper>
-
-      {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-        <PostSort
-          options={[
-            { value: 'latest', label: 'Latest' },
-            { value: 'popular', label: 'Popular' },
-            { value: 'oldest', label: 'Oldest' },
-          ]}
-        />
-      </Stack>
-
-      <Grid container spacing={3}>
-        {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} />
-        ))}
-      </Grid> */}
     </Container>
   );
 }

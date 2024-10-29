@@ -80,7 +80,7 @@ export default function NewTraining(props) {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={1} sx={{ p: 3 }}>
-              <Grid item xs={2}>
+              <Grid item xs={4} lg={2}>
                 <Controller
                   name="type"
                   control={control}

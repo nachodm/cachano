@@ -13,7 +13,7 @@ import { createNumberArray } from 'src/utils/format-arrays';
 export default function Plyometrics({ control }) {
   return (
     <Fragment>
-      <Grid item xs={2}>
+      <Grid item xs={4} lg={3}>
         <Controller
           name="hurdles"
           control={control}
@@ -34,7 +34,7 @@ export default function Plyometrics({ control }) {
         />
       </Grid>
 
-      <Grid item xs={2}>
+      <Grid item xs={4} lg={2}>
         <Controller
           name="reps"
           control={control}
@@ -55,7 +55,7 @@ export default function Plyometrics({ control }) {
         />
       </Grid>
 
-      <Grid item xs={2}>
+      <Grid item xs={4} lg={2}>
         <Controller
           name="jumps"
           control={control}
@@ -75,7 +75,7 @@ export default function Plyometrics({ control }) {
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={6} lg={3}>
         <Controller
           name="Description"
           control={control}

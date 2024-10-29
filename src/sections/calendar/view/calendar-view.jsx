@@ -63,7 +63,7 @@ export default function CalendarView() {
           <Grid xs={12} key={`training-${index}`}>
             <Training
               title={`Entrenamiento ${format(addDays(value, index), "EEEE, d 'de' MMMM", { locale: esLocale })}`}
-              list={[...Array(3)].map((_, i) => ({
+              list={[...Array(3)].map((exercise, i) => ({
                 id: `exercise-${i}`,
                 title: ['8x150m', '2x400', '4x80', '2x150'][Math.floor(Math.random() * 4)],
                 description: 'Intensidad: 75% (Ritmo: 20.1s)',

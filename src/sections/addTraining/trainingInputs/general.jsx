@@ -13,7 +13,7 @@ import { createNumberArray } from 'src/utils/format-arrays';
 export default function General({ control }) {
   return (
     <Fragment>
-      <Grid item xs={2}>
+      <Grid item xs={4} lg={2}>
         <Controller
           name="sets"
           control={control}
@@ -34,7 +34,7 @@ export default function General({ control }) {
         />
       </Grid>
 
-      <Grid item xs={2}>
+      <Grid item xs={4} lg={2}>
         <Controller
           name="reps"
           control={control}
@@ -55,7 +55,7 @@ export default function General({ control }) {
         />
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={6} lg={2}>
         <Controller
           name="exercise"
           control={control}
@@ -74,7 +74,7 @@ export default function General({ control }) {
           )}
         />
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={5} lg={2}>
         <Controller
           name="intensity"
           control={control}

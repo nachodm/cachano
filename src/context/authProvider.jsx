@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 
 import { supabase } from 'src/utils/supabase';
 
@@ -38,17 +38,18 @@ const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
-      const { user: currentUser } = data;
-      await setUser(currentUser ?? null);
-      setAuth(!!currentUser);
+      await setUser(data.user ?? null);
+      setAuth(!!data.user);
       setLoading(false);
     };
+
     getUser();
+
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
         setAuth(false);
       } else if (event === 'SIGNED_IN') {
-        setUser(session.user);
+        await setUser(session.user);
         setAuth(true);
         navigate('/');
       } else if (event === 'SIGNED_OUT') {
@@ -61,24 +62,37 @@ const AuthProvider = ({ children }) => {
     };
   }, [setUser, navigate]);
 
-  return (
-    <AuthContext.Provider
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{
-        auth,
-        user,
-        signIn,
-        signOut,
-        passwordReset,
-        updatePassword,
-      }}
-    >
-      {!loading && children}
-    </AuthContext.Provider>
+  const handleSignIn = useCallback(
+    async (email, password) => {
+      try {
+        const signInUser = await signIn(email, password);
+        await setUser(signInUser);
+        setAuth(true);
+        navigate('/');
+      } catch (error) {
+        console.error('Error durante el inicio de sesión:', error);
+      }
+    },
+    [signIn, setUser, navigate]
   );
+
+  const value = useMemo(
+    () => ({
+      auth,
+      user,
+      handleSignIn,
+      signOut,
+      passwordReset,
+      updatePassword,
+    }),
+    [auth, user, handleSignIn, signOut]
+  );
+
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
 
 AuthProvider.propTypes = {
   children: PropTypes.node,
 };
+
 export default AuthProvider;
