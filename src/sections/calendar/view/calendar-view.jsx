@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import esLocale from 'date-fns/locale/es';
+import { useState, useCallback } from 'react';
 import { toDate, format, addDays, startOfWeek } from 'date-fns';
 
 import Stack from '@mui/material/Stack';
@@ -20,6 +20,11 @@ export default function CalendarView() {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [value, setValue] = useState(toDate(new Date()));
 
+  const handleDateChange = useCallback(
+    (newValue) => setValue(startOfWeek(newValue, { weekStartsOn: 1 })),
+    []
+  );
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
@@ -39,7 +44,7 @@ export default function CalendarView() {
       <Stack mb={4} direction="row" alignItems="center" justifyContent="space-between">
         <DateCalendar
           value={value}
-          onChange={(newValue) => setValue(startOfWeek(newValue, { weekStartsOn: 1 }))}
+          onChange={handleDateChange}
           showDaysOutsideCurrentMonth
           slots={{ day: CustomDayPicker }}
           slotProps={{
@@ -54,7 +59,7 @@ export default function CalendarView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {[0, 1, 2, 3, 4, 5, 6].map((training, index) => (
+        {[...Array(7)].map((_, index) => (
           <Grid xs={12} key={`training-${index}`}>
             <Training
               title={`Entrenamiento ${format(addDays(value, index), "EEEE, d 'de' MMMM", { locale: esLocale })}`}
