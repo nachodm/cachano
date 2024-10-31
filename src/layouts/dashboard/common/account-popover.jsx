@@ -89,13 +89,13 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem key="Home" onClick={handleClose}>
-          Home
+          {t('home')}
         </MenuItem>
         <MenuItem key="Profile" onClick={handleProfileClick}>
           {t('profile')}
         </MenuItem>
         <MenuItem key="Settings" onClick={handleClose}>
-          Settings
+          {t('settings')}
         </MenuItem>
         <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
@@ -105,7 +105,7 @@ export default function AccountPopover() {
           onClick={() => signOut()}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
-          Logout
+          {t('logout')}
         </MenuItem>
       </Popover>
     </>

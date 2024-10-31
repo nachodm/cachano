@@ -2,6 +2,7 @@ import { sub } from 'date-fns';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { faker } from '@faker-js/faker';
+import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -25,55 +26,56 @@ import Scrollbar from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-const NOTIFICATIONS = [
-  // {
-  //   id: faker.string.uuid(),
-  //   title: 'Your order is placed',
-  //   description: 'waiting for shipping',
-  //   avatar: null,
-  //   type: 'order_placed',
-  //   createdAt: set(new Date(), { hours: 10, minutes: 30 }),
-  //   isUnRead: true,
-  // },
-  // {
-  //   id: faker.string.uuid(),
-  //   title: faker.person.fullName(),
-  //   description: 'answered to your comment on the mrnxn',
-  //   avatar: '/assets/images/avatars/avatar_2.jpg',
-  //   type: 'friend_interactive',
-  //   createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
-  //   isUnRead: true,
-  // },
-  {
-    id: faker.string.uuid(),
-    title: 'You have training days unfilled',
-    description: '5 unfilled trainings',
-    avatar: null,
-    type: 'chat_message',
-    createdAt: sub(new Date(), { days: 1, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  {
-    id: faker.string.uuid(),
-    title: 'New training week uploaded!',
-    description: 'Sara Montero',
-    avatar: null,
-    type: 'mail',
-    createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  // {
-  //   id: faker.string.uuid(),
-  //   title: 'Delivery processing',
-  //   description: 'Your order is being shipped',
-  //   avatar: null,
-  //   type: 'order_shipped',
-  //   createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
-  //   isUnRead: false,
-  // },
-];
-
 export default function NotificationsPopover() {
+  const { t } = useTranslation();
+
+  const NOTIFICATIONS = [
+    {
+      id: faker.string.uuid(),
+      title: 'Your order is placed',
+      description: 'waiting for shipping',
+      avatar: null,
+      type: 'order_placed',
+      createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
+      isUnRead: true,
+    },
+    {
+      id: faker.string.uuid(),
+      title: faker.person.fullName(),
+      description: t('training-group-invitation'),
+      avatar: '/assets/images/avatars/avatar_25.jpg',
+      type: 'friend_interactive',
+      createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
+      isUnRead: true,
+    },
+    {
+      id: faker.string.uuid(),
+      title: 'You have training days unfilled',
+      description: '5 unfilled trainings',
+      avatar: null,
+      type: 'chat_message',
+      createdAt: sub(new Date(), { days: 1, hours: 3, minutes: 30 }),
+      isUnRead: false,
+    },
+    {
+      id: faker.string.uuid(),
+      title: 'New training week uploaded!',
+      description: 'Sara Montero',
+      avatar: null,
+      type: 'mail',
+      createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
+      isUnRead: false,
+    },
+    {
+      id: faker.string.uuid(),
+      title: 'Delivery processing',
+      description: 'Your order is being shipped',
+      avatar: null,
+      type: 'order_shipped',
+      createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
+      isUnRead: false,
+    },
+  ];
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
 
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
