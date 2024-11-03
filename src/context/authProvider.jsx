@@ -6,6 +6,8 @@ import { supabase } from 'src/utils/supabase';
 
 import { useAuthStore } from 'src/store/authStore';
 
+import Loader from 'src/components/loader';
+
 const AuthContext = createContext({});
 
 export const UseAuth = () => useContext(AuthContext);
@@ -88,7 +90,9 @@ const AuthProvider = ({ children }) => {
     [auth, user, handleSignIn, signOut]
   );
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>{loading ? <Loader /> : children}</AuthContext.Provider>
+  );
 };
 
 AuthProvider.propTypes = {

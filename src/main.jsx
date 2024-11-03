@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import './i18n/i18n';
 import App from './app';
@@ -16,11 +17,13 @@ root.render(
   <HelmetProvider>
     <BrowserRouter>
       <Suspense>
-        <AuthProvider>
-          <AlertProvider>
-            <App />
-          </AlertProvider>
-        </AuthProvider>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+          <AuthProvider>
+            <AlertProvider>
+              <App />
+            </AlertProvider>
+          </AuthProvider>
+        </GoogleOAuthProvider>
       </Suspense>
     </BrowserRouter>
   </HelmetProvider>
